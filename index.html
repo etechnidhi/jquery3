@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <title>Assignment 2</title>
+        <link rel="stylesheet" href="index.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+       
+            <div class="header">
+                Inheritance
+            </div>
+            <div class="body">
+                    <ul>                         
+                        <li>
+                          <input type="checkbox" name="parent1" id="parent">parent1
+                            <ul>
+                                <li>
+                                  <input type="checkbox" name="child1" id="child1">Child1
+                                </li>
+                                <li>
+                                  <input type="checkbox" name="child2" id="child2">Child2
+                                </li>
+                                <li>
+                                  <input type="checkbox" name="child3" id="child3">Child3
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                                <input type="checkbox" name="parent1" id="parent">parent2
+                                  <ul>
+                                      <li>
+                                        <input type="checkbox" name="child1" id="child1">Child1
+                                      </li>
+                                      <li>
+                                        <input type="checkbox" name="child2" id="child2">Child2
+                                      </li>
+                                      <li>
+                                        <input type="checkbox" name="child3" id="child3">Child3
+                                      </li>
+                                  </ul>
+                              </li>
+                    </ul>
+        </div>
+         <script>
+             $('input[type="checkbox"]').change(function(e) {
+                var checked = $(this).prop("checked"),
+                container = $(this).parent(),
+                siblings = container.siblings();
+                 container.find('input[type="checkbox"]').prop({checked: checked });
+        function checkSiblings(el) {
+          var parent = el.parent().parent(),
+              all = true;
+          el.siblings().each(function() {
+            return all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
+          });
+          if (all && checked) {
+            parent.children('input[type="checkbox"]').prop({checked: checked });
+            checkSiblings(parent);
+          } else if (all && !checked) {
+            parent.children('input[type="checkbox"]').prop("checked", checked);
+            parent.children('input[type="checkbox"]').prop("indeterminate", (parent.find('input[type="checkbox"]:checked').length > 0));
+            checkSiblings(parent);
+          } else {
+            el.parents("li").children('input[type="checkbox"]').prop({ checked: true});
+          }
+        }
+        checkSiblings(container);
+        });
+        </script>
+    </body>
+</html>
